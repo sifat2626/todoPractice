@@ -33,10 +33,6 @@ const userSchema = new mongoose.Schema(
       required: [true, "Please add a password"],
       minLength: [6, "Password must be up to 6 characters"],
     },
-    confirmPassword: {
-      type: String,
-      required: [true, "Please confirm your password"],
-    },
   },
   {
     timestamps: true,
@@ -53,8 +49,6 @@ userSchema.pre("save", async function (next) {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(this.password, salt);
     this.password = hashedPassword;
-    const hashedConfirmPassword = await bcrypt.hash(this.confirmPassword, salt);
-    this.confirmPassword = hashedConfirmPassword;
     next();
   });
 //Model

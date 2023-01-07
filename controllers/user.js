@@ -9,7 +9,11 @@ const generateToken = (id) => {
 };
 //Create User
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, confirmPassword, userName } = req.body;
+  const { name, email, password, userName } = req.body;
+  let {confirmPassword} = req.body;
+  // const salt = await bcrypt.genSalt(10);
+  // const hashedConfirmPassword = await bcrypt.hash(confirmPassword, salt);
+  //   confirmPassword = hashedConfirmPassword;
   //validation
   if (!name || !email || !password || !confirmPassword || !userName) {
     res.status(400);
@@ -20,6 +24,7 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Password must be up to 6 characters");
   }
+  
   //check if user exists
   const exists = await (User.findOne({email}) && User.findOne({userName}));
   if (exists) {
@@ -39,6 +44,7 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
     confirmPassword
   });
+  
   //generate token
   const token = generateToken(user._id);
   // Send HTTP-only cookie
