@@ -26,7 +26,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
   
   //check if user exists
-  const exists = await (User.findOne({email}) && User.findOne({userName}));
+  const exists = await (User.findOne({userName}) || User.findOne({email}));
   if (exists) {
     res.status(400);
     throw new Error("User already exists");
@@ -74,14 +74,14 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 //Login User
 const userLogin = asyncHandler(async (req,res)=>{
-  const {email,password,userName} = req.body;
-  if((!email || !userName) && !password)
+  const {password,userName} = req.body;
+  if(!userName || !password)
   {
     res.status(400);
     throw new Error("please fill in all the fields");
   }
   // Check if user exists
-  const user = await (User.findOne({email}))  || await (User.findOne({userName}));
+  const user = await (User.findOne({userName}));
   if (!user) {
     res.status(400);
     throw new Error("User doesn't exist,please signup");
@@ -115,8 +115,20 @@ const userLogin = asyncHandler(async (req,res)=>{
     throw new Error("Invalid email or password");
   }
 })
+//Logout User
+const logout = asyncHandler(async (req, res) => {
+  res.cookie("token", "", {
+    path: "/",
+    httpOnly: true,
+    expires: new Date(0),
+    sameSite: "none",
+    // secure: true,
+  });
+  return res.status(200).json({ message: "Successfully Logged Out" });
+});
 
 module.exports = {
     registerUser,
-    userLogin
+    userLogin,
+    logout,
 }

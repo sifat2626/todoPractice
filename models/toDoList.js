@@ -1,34 +1,38 @@
 const mongoose = require("mongoose");
 
-const dataSchema = mongoose.Schema({
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
-        required:true,
-        ref:'user'
+const dataSchema = mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "user",
     },
-    name:{
-        type:String,
+    userName: {
+      type: String,
+      required:true,
+      ref: "user",
     },
-    todoSubject:{
-        type:String,
-        required:true,
-        default:'subject'
+    todoSubject: {
+      type: String,
+      required: true,
+      default: "subject",
     },
-    todoDescription:{
-        type:String,
-        required:true,
-        default:'description'
+    todoDescription: {
+      type: String,
+      required: true,
+      default: "description",
     },
-    todoStatus:{
-        type:String
+    todoStatus: {
+      type: String,
     },
-    todoCreateDate:{
-        type:Date
+    todoCreateDate: {
+      type: Date,
     },
-    todoUpdateDate:{
-        type:Date
+    todoUpdateDate: {
+      type: Date,
     },
-
-},{versionKey:false});
-const toDoListModel = mongoose.model("toDoList",dataSchema);
-module.exports = toDoListModel;
+  },
+  { versionKey: false }
+);
+const todoListModel = mongoose.model("toDoList", dataSchema);
+module.exports = todoListModel;

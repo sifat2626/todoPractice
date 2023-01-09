@@ -2,9 +2,13 @@ const express = require('express');
 const protect = require('../middlewares/auth');
 const router = express.Router();
 const {
-    createToDo,
+    createTodo,
+    selectTodo,
+    updateTodo
 
-} = require('../controllers/toDoList');
+} = require('../controllers/todoList');
 
-router.post('/createToDo',protect,createToDo);
+router.post('/createTodo',protect,createTodo);
+router.get('/selectTodo',protect,selectTodo);
+router.post('/updateTodo',protect,updateTodo);
 module.exports = router;
