@@ -20,7 +20,7 @@ const protect = expressAsyncHandler(async (req, res, next) => {
     throw new Error("User not found");
   }
   req.user = user;
-  console.log(`========>${req.user.userName}`)
+  // console.log(`========>${req.user.userName}`)
   next();
 });
 module.exports = protect;
